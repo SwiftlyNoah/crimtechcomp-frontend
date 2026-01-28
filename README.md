@@ -168,35 +168,6 @@ The API client is already configured to use `http://localhost:3001/api` by defau
 
 ---
 
-## Architecture overview
-
-This starter repo provides:
-
-- **React + TypeScript + Vite** for fast development
-- **React Router** for client-side routing
-- **API client wrapper** (`src/api/client.ts`) configured to use the local mock API
-- **Type definitions** (`src/types.ts`) matching the API response shapes
-- **Basic `/read` route scaffold** with placeholder structure
-
-The starter includes:
-- Basic routing setup with `/read` and `/read/:articleId` routes
-- Skeleton component structure with TODO comments
-- Type-safe API client functions
-- Basic styling scaffold
-
-**What you need to implement:**
-
-- Infinite scroll with IntersectionObserver
-- Active article tracking
-- Refresh resilience (localStorage/sessionStorage)
-- Prefetch logic
-- Search with debouncing
-- Loading, error, and empty states
-- Full article content rendering (using `fetchArticle` for detail view if needed)
-
----
-
-
 
 ## Submission
 
