@@ -92,7 +92,7 @@ Fetches a single article by its ID. **Note:** The list endpoint already includes
 
 ---
 
-## Core requirements (must-have)
+## Core requirement
 
 ### A) Article scrolling with pagination (feed of full articles)
 
