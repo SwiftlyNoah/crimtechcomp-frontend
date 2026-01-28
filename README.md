@@ -56,24 +56,7 @@ Fetches a paginated list of articles. Supports search filtering via the `q` para
 
 **Returns:**
 
-```json
-{
-  "items": [
-    {
-      "id": "a_123",
-      "title": "Example title",
-      "dek": "Short summary",
-      "author": "Name",
-      "publishedAt": "2026-01-20T12:00:00Z",
-      "readingTimeMins": 6,
-      "imageUrl": "https://...",
-      "contentHtml": "<p>Full article content as HTML...</p>"
-    }
-  ],
-  "nextCursor": "opaque_cursor_or_null",
-  "hasMore": true
-}
-```
+
 
 **Response fields:**
 - `items`: Array of article objects with full content:
@@ -104,15 +87,6 @@ Fetches a single article by its ID. **Note:** The list endpoint already includes
 
 **Returns:**
 
-```json
-{
-  "id": "a_123",
-  "title": "Example title",
-  "author": "Name",
-  "publishedAt": "2026-01-20T12:00:00Z",
-  "contentHtml": "<p>Full article content as HTML...</p>"
-}
-```
 
 **Response fields:**
 - `id`: Article identifier
