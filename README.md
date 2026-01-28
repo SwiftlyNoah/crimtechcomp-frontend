@@ -129,80 +129,21 @@ Fetches a single article by its ID. **Note:** The list endpoint already includes
 
 ### A) Article scrolling with pagination (feed of full articles)
 
-Your `/read` page must implement **pagination/infinite scroll** - you cannot just fetch all articles at once.
-
-**Requirements:**
-- Load the first page of articles (use `limit=10` or similar, don't fetch everything).
-- Render full articles (title + metadata + HTML body) from the list response.
-- As the user scrolls near the bottom, load the next page using the `nextCursor` and append new articles.
-- Stop when `hasMore=false` and show a clear "You're all caught up" end state.
-
-**Note on prefetching:** Basic pagination means loading when the sentinel becomes visible. Prefetching (optional feature E) means loading earlier (e.g., 1-2 viewport heights before the bottom) so content is ready when the user arrives - this is a performance optimization, not a core requirement.
+Implement pagination/infinite scroll (Important note: don't fetch all articles at once):
+- Load first page (`limit=10`)
+- Render full articles (title + metadata + HTML body)
+- Load next page using `nextCursor` when user scrolls near bottom
+- Show "You're all caught up" when `hasMore=false`
 
 
-## Recommended additional features 
+## Optional features
+You can (and are encouraged to) add additional features. Below are a few suggested ideas—feel free to come up with your own.
 
-These features improve the user experience and further demonstrate your frontend engineering skills.
-
-### Active article tracking
-
-As the user scrolls, track which article is currently "active" (most visible in the viewport).
-
-Use this to drive at least one of the following (your choice, but pick one and do it well):
-
-- Update the URL using History API (e.g., `/read/a_123`) without jumping the scroll, OR
-- Highlight the active article in a sidebar/mini-nav, OR
-- Display an "Now reading: …" sticky header.
-
-### Search bar
-
-Add a search bar that filters articles by keyword using the `q` parameter.
-
-**Requirements:**
-
-- Search is applied to the API list endpoint (not just client-side filtering).
-- Debounce input (e.g., ~300ms) to avoid excessive API calls.
-- When the query changes:
-  - reset pagination,
-  - clear old results,
-  - fetch from the beginning with the new query,
-  - handle "no results" state cleanly.
-
-### Category filtering
-
-Add category-based filtering to allow users to filter articles by topic (Technology, Science, Business, Health, Culture, Politics, Environment, Education).
-
-**Implementation:**
-- You can implement this client-side by filtering the articles based on keywords in the title/dek, OR
-- Use the search API with category-specific keywords (e.g., `q=technology`).
-- Display category buttons/chips that users can click to filter.
-- When a category is selected, reset pagination and show only articles from that category.
-
-### Refresh resilience (keep your spot)
-
-If the user refreshes the page, restore them to approximately the same place in the feed.
-
-**At minimum, persist:**
-- loaded article IDs (or cursors/pages),
-- active article ID,
-- scroll position (or anchor + offset),
-- current search query.
-
-You may use `localStorage` or `sessionStorage`. Explain your approach in the README.
-
-### Prefetch the next page (performance optimization)
-
-**What's the difference from basic pagination?**
-
-- **Basic pagination (required):** Load the next page when the sentinel element becomes visible (user reaches the bottom).
-- **Prefetching (optional):** Load the next page earlier (e.g., 1-2 viewport heights before the bottom) so content is already loaded when the user arrives - eliminates loading delays.
-
-**Implementation:**
-- When the user is within ~1–2 viewport heights of the bottom, start fetching the next page.
-- Only one in-flight pagination request at a time.
-- Cancel stale requests if the search query changes.
-
-This makes scrolling feel smoother with no loading pauses, but basic pagination (loading when sentinel is visible) is sufficient for the core requirement.
+- **Active article tracking:** Track the most visible article and update URL/highlight/sidebar accordingly.
+- **Search bar:** Filter articles using `q` parameter. Debounce input (~300ms), reset pagination on query change, handle empty states.
+- **Category filtering:** Filter by topic (Technology, Science, Business, Health, Culture, Politics, Environment, Education). Can use search API or client-side filtering.
+- **Refresh resilience:** Restore scroll position, loaded articles, and search query on page refresh using `localStorage`/`sessionStorage`.
+- **Try new layouts** Examples: Two-column with mini-nav, sticky header, reading-mode toggle. Focus on clean typography, spacing, and professional design.
 
 ## Styling / Layout
 
