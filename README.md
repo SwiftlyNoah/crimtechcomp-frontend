@@ -4,9 +4,6 @@
 
 Build an infinite-scrolling article reader backed by a paginated mock API that loads and appends articles as the user scrolls.
 
-**Time expectation:** ~8–10 hours  
-**Focus:** frontend engineering (state, performance, UX, reliability)
-
 ---
 
 ## What we provide
