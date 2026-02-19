@@ -32,3 +32,16 @@ export interface ArticlesListParams {
   limit?: number;
   q?: string | null;
 }
+
+export const CATEGORIES = [
+  'Technology',
+  'Science',
+  'Business',
+  'Health',
+  'Culture',
+  'Politics',
+  'Environment',
+  'Education',
+] as const;
+
+export type Category = (typeof CATEGORIES)[number];
