@@ -5,9 +5,8 @@ import { useArticleFeed } from '../hooks/useArticleFeed';
 import { useActiveArticle } from '../hooks/useActiveArticle';
 import { useSessionRestore, type SavedState } from '../hooks/useSessionRestore';
 import ArticleCard from '../components/ArticleCard';
-import SearchBar from '../components/SearchBar';
-import CategoryFilter from '../components/CategoryFilter';
 import Sidebar from '../components/Sidebar';
+import CrimsonHeader from '../components/CrimsonHeader';
 import type { Category } from '../types';
 import './ReadPage.css';
 
@@ -108,19 +107,14 @@ export default function ReadPage() {
 
   return (
     <div className={`read-page${readingMode ? ' reading-mode' : ''}`}>
-      <header className="read-header">
-        <div className="header-top">
-          <h1>Article Reader</h1>
-          <button
-            className="reading-mode-toggle"
-            onClick={() => setReadingMode(m => !m)}
-          >
-            {readingMode ? 'Exit Reading Mode' : 'Reading Mode'}
-          </button>
-        </div>
-        <SearchBar value={rawSearchInput} onChange={setRawSearchInput} />
-        <CategoryFilter activeCategory={activeCategory} onChange={setActiveCategory} />
-      </header>
+      <CrimsonHeader
+        searchValue={rawSearchInput}
+        onSearchChange={setRawSearchInput}
+        activeCategory={activeCategory}
+        onCategoryChange={setActiveCategory}
+        readingMode={readingMode}
+        onToggleReadingMode={() => setReadingMode(m => !m)}
+      />
 
       <div className="layout">
         <Sidebar articles={articles} activeArticleId={activeArticleId} />
