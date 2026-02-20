@@ -55,9 +55,9 @@
 }
 
 .sidebar li.active {
-  border-left-color: #a51c30;
+  border-left-color: #A5090D;
   background: #fdf0f2;
-  color: #a51c30;
+  color: #A5090D;
   font-weight: 500;
 }
 
@@ -84,7 +84,7 @@
 }
 
 .article-card.article-active {
-  border-left-color: #a51c30;
+  border-left-color: #A5090D;
   box-shadow: 0 2px 8px rgba(165, 28, 48, 0.08);
 }
 
@@ -163,7 +163,7 @@
   width: 24px;
   height: 24px;
   border: 3px solid #e0e0e0;
-  border-top-color: #a51c30;
+  border-top-color: #A5090D;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
   margin: 0 auto 0.75rem;
@@ -180,7 +180,7 @@
 .error-state button {
   margin-top: 0.75rem;
   padding: 0.5rem 1.25rem;
-  background: #a51c30;
+  background: #A5090D;
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -189,7 +189,7 @@
 }
 
 .error-state button:hover {
-  background: #8a1627;
+  background: #8a0a0c;
 }
 
 .end-state {

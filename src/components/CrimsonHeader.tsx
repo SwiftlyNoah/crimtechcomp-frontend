@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { CATEGORIES, type Category } from '../types';
 import './CrimsonHeader.css';
 
@@ -31,7 +31,29 @@ export default function CrimsonHeader({
 }: CrimsonHeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const mastheadRef = useRef<HTMLDivElement>(null);
+  const mastheadHeight = useRef(0);
+
+  // Measure masthead height and collapse when scrolled past it
+  const updateCollapsed = useCallback(() => {
+    const masthead = mastheadRef.current;
+    if (masthead && !collapsed) {
+      mastheadHeight.current = masthead.offsetHeight;
+    }
+    // Nav bar is ~44px, so threshold is when scroll exceeds masthead height
+    setCollapsed(window.scrollY > mastheadHeight.current);
+  }, [collapsed]);
+
+  useEffect(() => {
+    // Measure on mount
+    if (mastheadRef.current) {
+      mastheadHeight.current = mastheadRef.current.offsetHeight;
+    }
+    window.addEventListener('scroll', updateCollapsed, { passive: true });
+    return () => window.removeEventListener('scroll', updateCollapsed);
+  }, [updateCollapsed]);
 
   // Focus search input when opened
   useEffect(() => {
@@ -40,14 +62,14 @@ export default function CrimsonHeader({
     }
   }, [searchOpen]);
 
-  // Close menu on resize to desktop
+  // Close menu on resize to desktop (only when not collapsed)
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth > 960) setMenuOpen(false);
+      if (window.innerWidth > 960 && !collapsed) setMenuOpen(false);
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [collapsed]);
 
   // Close menu on outside click
   useEffect(() => {
@@ -68,7 +90,7 @@ export default function CrimsonHeader({
   };
 
   return (
-    <header className="crimson-header">
+    <header className={`crimson-header${collapsed ? ' collapsed' : ''}`}>
       {/* ── Nav Bar ── */}
       <nav className="crimson-nav">
         <button
@@ -80,7 +102,10 @@ export default function CrimsonHeader({
           <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
             <path d="M2 4h14M2 9h14M2 14h14" stroke="white" strokeWidth="2" strokeLinecap="round" />
           </svg>
+          <span className="hamburger-label">Sections</span>
         </button>
+
+        <span className="nav-collapsed-title">The Harvard Crimson</span>
 
         <div className="nav-links">
           <button
@@ -122,22 +147,24 @@ export default function CrimsonHeader({
       {/* ── Search Bar (slides open) ── */}
       {searchOpen && (
         <div className="crimson-search-bar">
-          <input
-            ref={searchInputRef}
-            type="text"
-            placeholder="Search articles..."
-            value={searchValue}
-            onChange={e => onSearchChange(e.target.value)}
-          />
-          {searchValue && (
-            <button
-              className="search-clear-btn"
-              onClick={() => onSearchChange('')}
-              aria-label="Clear search"
-            >
-              &times;
-            </button>
-          )}
+          <div className="search-input-wrap">
+            <input
+              ref={searchInputRef}
+              type="text"
+              placeholder="Search articles..."
+              value={searchValue}
+              onChange={e => onSearchChange(e.target.value)}
+            />
+            {searchValue && (
+              <button
+                className="search-clear-btn"
+                onClick={() => onSearchChange('')}
+                aria-label="Clear search"
+              >
+                Clear
+              </button>
+            )}
+          </div>
           <button
             className="search-close-btn"
             onClick={() => setSearchOpen(false)}
@@ -150,7 +177,7 @@ export default function CrimsonHeader({
         </div>
       )}
 
-      {/* ── Mobile Dropdown ── */}
+      {/* ── Dropdown Menu ── */}
       {menuOpen && (
         <div className="nav-mobile-dropdown">
           <button
@@ -179,8 +206,7 @@ export default function CrimsonHeader({
       )}
 
       {/* ── Masthead ── */}
-      <div className="crimson-masthead">
-        <div className="masthead-rule" />
+      <div className="crimson-masthead" ref={mastheadRef}>
         <h1 className="masthead-title">The Harvard Crimson</h1>
         <div className="masthead-meta">
           <span className="masthead-date">{getFormattedDate()}</span>
