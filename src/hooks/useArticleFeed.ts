@@ -21,7 +21,10 @@ export function useArticleFeed({ searchQuery, activeCategory, initialState }: Us
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const loadingRef = useRef(false);
-  const skipInitialFetch = useRef(!!initialState);
+  // Track params we already have data for to avoid redundant fetches (handles StrictMode double-effects)
+  const lastFetchParamsRef = useRef<{ query: string; category: Category | null } | null>(
+    initialState ? { query: searchQuery, category: activeCategory } : null
+  );
   const versionRef = useRef(0);
 
   const doFetch = useCallback(async (cursor: string | null, query: string, category: Category | null) => {
@@ -77,10 +80,11 @@ export function useArticleFeed({ searchQuery, activeCategory, initialState }: Us
 
   // Fetch on mount or when search/category changes
   useEffect(() => {
-    if (skipInitialFetch.current) {
-      skipInitialFetch.current = false;
+    const last = lastFetchParamsRef.current;
+    if (last !== null && last.query === searchQuery && last.category === activeCategory) {
       return;
     }
+    lastFetchParamsRef.current = { query: searchQuery, category: activeCategory };
     setArticles([]);
     setNextCursor(null);
     setHasMore(true);
