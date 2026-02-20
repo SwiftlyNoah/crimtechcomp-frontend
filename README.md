@@ -4,6 +4,9 @@
 
 A paginated, infinite-scrolling mock article reader styled after The Harvard Crimson, built with React and TypeScript.
 
+[![Demo Video](screenshot.png)](https://youtu.be/KvqABy8IDS4)
+**[Watch the demo video](https://youtu.be/KvqABy8IDS4)**
+
 ---
 
 ## Features
